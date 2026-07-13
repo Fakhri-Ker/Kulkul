@@ -1,51 +1,30 @@
-/* Mengimpor font Inter */
-@import "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap";
+/* Pengaturan Dasar */
+body { font-family: 'Inter', sans-serif; background: #f9fafb; margin: 0; display: flex; }
+#app { display: flex; width: 100%; min-height: 100vh; }
 
-/* Reset dasar untuk memastikan tampilan bersih */
-*, :before, :after {
-    --tw-border-spacing-x: 0;
-    --tw-border-spacing-y: 0;
-    --tw-translate-x: 0;
-    --tw-translate-y: 0;
-    --tw-rotate: 0;
-    --tw-skew-x: 0;
-    --tw-skew-y: 0;
-    --tw-scale-x: 1;
-    --tw-scale-y: 1;
-    --tw-ring-offset-width: 0px;
-    --tw-ring-offset-color: #fff;
-    --tw-ring-color: rgb(59 130 246 / .5);
-    --tw-ring-shadow: 0 0 #0000;
-    --tw-shadow: 0 0 #0000;
-}
+/* Sidebar */
+#sidebar { width: 250px; background: #0f172a; color: white; padding: 20px; }
+#sidebar ul { list-style: none; padding: 0; }
+#sidebar li { padding: 10px 0; cursor: pointer; color: #94a3b8; }
+#sidebar li.active { color: white; font-weight: bold; }
 
-body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-}
+/* Main Area */
+main { flex: 1; padding: 40px; }
+.header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 
-/* Utilitas untuk fokus ring */
-.focus\:ring-green-500\/30:focus {
-    --tw-ring-color: rgb(34 197 94 / .3);
-}
+/* Banner */
+.banner { background: #16a34a; color: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; }
 
-.disabled\:opacity-60:disabled {
-    opacity: .6;
-}
+/* Statistik Grid */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
+.stat-card { background: white; padding: 20px; border-radius: 10px; border: 1px solid #e5e7eb; text-align: center; font-size: 24px; font-weight: bold; }
+.stat-card span { display: block; font-size: 14px; color: #6b7280; font-weight: normal; }
 
-.group:hover .group-hover\:scale-110 {
-    --tw-scale-x: 1.1;
-    --tw-scale-y: 1.1;
-    transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
-}
+/* Akses Cepat (Tugas & Jadwal) */
+.quick-access { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.nav-card { background: white; padding: 20px; border-radius: 10px; border: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
+.nav-link { color: #16a34a; cursor: pointer; background: #f0fdf4; border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; }
 
-.group:hover .group-hover\:opacity-100 {
-    opacity: 1
-}
-
-/* Responsif untuk tampilan grid */
-@media (min-width: 640px) {
-    .sm\:grid-cols-2 {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
+/* Tombol Install & Aksi */
+.user-actions { display: flex; gap: 10px; }
+#btn-install { background: none; border: 1px solid #ccc; cursor: pointer; padding: 8px; border-radius: 5px; color: #333; }
