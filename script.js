@@ -1,21 +1,44 @@
-// script.js
-// Aplikasi PAI Schedule - Utama
+// Register Service Worker
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+        .then(() => console.log("Service Worker berhasil didaftarkan"))
+        .catch(err => console.log("Gagal mendaftar Service Worker", err));
+}
 
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("PAI Schedule dimuat!");
+// 1. Logika Navigasi Halaman
+document.querySelectorAll('.nav-link').forEach(button => {
+    button.addEventListener('click', () => {
+        const target = button.getAttribute('data-target');
+        console.log("Navigasi ke menu: " + target);
+        // Di sini Anda bisa memanggil fungsi untuk mengganti isi konten
+    });
+});
+
+// 2. Logika Install PWA 
+let deferredPrompt;
+const installBtn = document.getElementById('btn-install');
+
+// Sembunyikan tombol saat pertama kali load
+installBtn.style.display = 'none'; 
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Mencegah browser menampilkan prompt otomatis
+    e.preventDefault();
+    deferredPrompt = e;
     
-    // Tempat logika aplikasi Anda berjalan
-    // Pastikan ID 'root' ada di dalam index.html
-    const root = document.getElementById('root');
-    
-    if (root) {
-        // Di sini biasanya framework seperti React/Vite merender aplikasi Anda
-        // Jika Anda hanya menggunakan HTML/JS murni, Anda bisa menambah konten di sini:
-        root.innerHTML = `
-            <div style="padding: 20px; text-align: center;">
-                <h1>Selamat Datang di PAI Schedule</h1>
-                <p>Aplikasi sedang berjalan dengan baik.</p>
-            </div>
-        `;
+    // Tampilkan tombol karena aplikasi bisa di-install
+    installBtn.style.display = 'block'; 
+});
+
+installBtn.addEventListener('click', () => {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('Aplikasi di-install');
+            }
+            deferredPrompt = null;
+            installBtn.style.display = 'none'; // Sembunyikan setelah di-klik
+        });
     }
 });
