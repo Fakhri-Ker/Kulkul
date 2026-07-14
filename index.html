@@ -2,28 +2,33 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PAI Student - UIN SIBER Syekh Nurjati</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="app">
-        <!-- Sidebar -->
+
         <aside id="sidebar">
             <div class="brand">
                 <div class="logo">🎓</div>
-                <div>
+                <div class="brand-text">
                     <h2>PAI Student</h2>
                     <p>UIN SIBER Syekh Nurjati</p>
                 </div>
             </div>
             <nav>
                 <ul class="menu">
-                    <li class="active">Dashboard</li>
-                    <li>Tugas</li>
-                    <li>Jadwal Kuliah</li>
-                    <li>Catatan</li>
-                    <li>Timer Belajar</li>
-                    <li>Waktu Sholat</li>
+                    <li class="active" data-target="page-dashboard">Dashboard</li>
+                    <li data-target="page-tugas">Tugas</li>
+                    <li data-target="page-jadwal">Jadwal Kuliah</li>
+                    <li data-target="page-catatan">Catatan</li>
+                    <li data-target="page-timer">Timer Belajar</li>
+                    <li data-target="page-sholat">Waktu Sholat</li>
                 </ul>
             </nav>
             <div class="sidebar-footer">
@@ -32,35 +37,257 @@
             </div>
         </aside>
 
-        <!-- Main Content -->
         <main>
-            <header>
-                <div>
-                    <h1>Dashboard</h1>
-                    <p>Selamat datang kembali!</p>
-                </div>
-                <div class="user-actions">
-                    <span>19.54.06 | Senin, 13 Jul 2026</span>
-                    <button>🌙</button>
-                    <button>🔔</button>
-                    <button id="btn-install">M</button>
-                </div>
-            </header>
 
-            <div class="banner">
-                <h2>Assalamu'alaikum <br> Semangat Belajar Hari Ini! ☀️</h2>
-                <p>"Tuntutlah ilmu, sesungguhnya menuntut ilmu adalah pendekatan diri kepada Allah."</p>
-                <div class="progress-bar">0% tugas selesai</div>
+            <div id="page-dashboard" class="page-content">
+                <header>
+                    <div>
+                        <h1>Dashboard</h1>
+                        <p>Selamat datang kembali!</p>
+                    </div>
+                    <div class="user-actions">
+                        <span class="datetime">19.54.06 | Senin, 13 Jul 2026</span>
+                        <button class="btn-icon" title="Ubah Mode">🌙</button>
+                        <button class="btn-icon" title="Notifikasi">🔔</button>
+                        <button id="btn-install" class="btn-icon install-badge" title="Install Aplikasi">M</button>
+                    </div>
+                </header>
+
+                <div class="banner">
+                    <h2>Assalamu'alaikum <br> Semangat Belajar Hari Ini! ☀️</h2>
+                    <p>"Tuntutlah ilmu, sesungguhnya menuntut ilmu adalah pendekatan diri kepada Allah."</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 0%"></div>
+                    </div>
+                    <small style="margin-top: 10px; display: block;">0% tugas selesai</small>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">0 <span>Tugas Aktif</span></div>
+                    <div class="stat-card">0 <span>Selesai</span></div>
+                    <div class="stat-card">0 <span>Terlambat</span></div>
+                    <div class="stat-card">0 <span>Jadwal Hari Ini</span></div>
+                </div>
+
+                <div class="quick-access">
+                    <div class="nav-card">
+                        <h3>Tugas</h3>
+                        <button class="nav-link" data-target="page-tugas">Lihat Semua</button>
+                    </div>
+                    <div class="nav-card">
+                        <h3>Jadwal Kuliah</h3>
+                        <button class="nav-link" data-target="page-jadwal">Lihat Semua</button>
+                    </div>
+                </div>
             </div>
 
-            <div class="stats-grid">
-                <div class="card">0 <span>Tugas Aktif</span></div>
-                <div class="card">0 <span>Selesai</span></div>
-                <div class="card">0 <span>Terlambat</span></div>
-                <div class="card">0 <span>Jadwal Hari Ini</span></div>
+
+            <div id="page-tugas" class="page-content hidden">
+                <header>
+                    <div>
+                        <h1>Manajemen Tugas</h1>
+                        <p>Kelola semua tugas kuliah</p>
+                    </div>
+                    <div class="user-actions">
+                        <span class="datetime">19.54.06 | Senin, 13 Jul 2026</span>
+                        <button class="btn-icon">🌙</button>
+                        <button class="btn-icon">🔔</button>
+                        <button class="btn-icon install-badge">M</button>
+                    </div>
+                </header>
+
+                <div class="task-toolbar">
+                    <div class="search-filter">
+                        <input type="text" placeholder="🔍 Cari tugas...">
+                        <select>
+                            <option>Semua Status</option>
+                            <option>Belum Dikerjakan</option>
+                            <option>Sedang Dikerjakan</option>
+                            <option>Selesai</option>
+                        </select>
+                        <select>
+                            <option>Semua Prioritas</option>
+                            <option>Rendah</option>
+                            <option>Sedang</option>
+                            <option>Tinggi</option>
+                        </select>
+                    </div>
+                    <button id="btn-show-form" class="btn-primary">+ Tambah Tugas</button>
+                </div>
+
+                <div id="form-tambah-tugas" class="task-form hidden">
+                    <h3>Tambah Tugas Baru</h3>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Judul Tugas *</label>
+                            <input type="text" placeholder="Contoh: Makalah Tafsir Al-Baqarah">
+                        </div>
+                        <div class="form-group">
+                            <label>Mata Kuliah *</label>
+                            <select>
+                                <option>Pilih Mata Kuliah</option>
+                                <option>Tafsir Al-Quran</option>
+                                <option>Hadits</option>
+                                <option>Fiqih Ibadah</option>
+                                <option>Aqidah Akhlak</option>
+                                <option>Bahasa Arab</option>
+                                <option>Lainnya</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Deadline</label>
+                            <input type="date">
+                        </div>
+                        <div class="form-group">
+                            <label>Prioritas</label>
+                            <select>
+                                <option>Rendah</option>
+                                <option selected>Sedang</option>
+                                <option>Tinggi</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Kategori</label>
+                            <select>
+                                <option selected>Tugas</option>
+                                <option>Ujian</option>
+                                <option>Presentasi</option>
+                                <option>Praktikum</option>
+                                <option>Lainnya</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Status</label>
+                            <select>
+                                <option selected>Belum Dikerjakan</option>
+                                <option>Sedang Dikerjakan</option>
+                                <option>Selesai</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Deskripsi</label>
+                            <textarea placeholder="Keterangan tambahan..." rows="4"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button id="btn-cancel-form" class="btn-secondary">Batal</button>
+                        <button class="btn-primary">Simpan</button>
+                    </div>
+                </div>
+
+                <div id="empty-task-state" class="empty-state">
+                    <div class="empty-icon">✔️</div>
+                    <h3>Tidak ada tugas ditemukan</h3>
+                    <p>Tambahkan tugas baru untuk mulai</p>
+                </div>
             </div>
+
+
+            <div id="page-jadwal" class="page-content hidden">
+                <header>
+                    <div>
+                        <h1>Jadwal Kuliah</h1>
+                        <p>Daftar mata kuliah mingguan</p>
+                    </div>
+                    <div class="user-actions">
+                        <span class="datetime">19.54.06 | Senin, 13 Jul 2026</span>
+                        <button class="btn-icon">🌙</button>
+                        <button class="btn-icon">🔔</button>
+                        <button class="btn-icon install-badge">M</button>
+                    </div>
+                </header>
+
+                <div class="schedule-toolbar">
+                    <button class="btn-primary">+ Tambah Jadwal</button>
+                </div>
+
+                <div class="empty-state">
+                    <div class="empty-icon">📅</div>
+                    <h3>Belum ada jadwal kuliah</h3>
+                    <p>Silakan isi jadwal perkuliahan Anda</p>
+                </div>
+            </div>
+
+
+            <div id="page-catatan" class="page-content hidden">
+                <header>
+                    <div>
+                        <h1>Catatan Belajar</h1>
+                        <p>Simpan materi penting kuliah</p>
+                    </div>
+                    <div class="user-actions">
+                        <span class="datetime">19.54.06 | Senin, 13 Jul 2026</span>
+                        <button class="btn-icon">🌙</button>
+                        <button class="btn-icon">🔔</button>
+                        <button class="btn-icon install-badge">M</button>
+                    </div>
+                </header>
+
+                <div class="notes-toolbar">
+                    <button class="btn-primary">+ Tambah Catatan</button>
+                </div>
+
+                <div class="empty-state">
+                    <div class="empty-icon">✍️</div>
+                    <h3>Belum ada catatan</h3>
+                    <p>Mulai menulis ide atau materi kuliah hari ini</p>
+                </div>
+            </div>
+
+
+            <div id="page-timer" class="page-content hidden">
+                <header>
+                    <div>
+                        <h1>Timer Belajar (Pomodoro)</h1>
+                        <p>Fokus belajar dengan metode interval</p>
+                    </div>
+                    <div class="user-actions">
+                        <span class="datetime">19.54.06 | Senin, 13 Jul 2026</span>
+                        <button class="btn-icon">🌙</button>
+                        <button class="btn-icon">🔔</button>
+                        <button class="btn-icon install-badge">M</button>
+                    </div>
+                </header>
+
+                <div class="timer-card">
+                    <div class="timer-display">25:00</div>
+                    <div class="timer-controls">
+                        <button class="btn-primary">Mulai</button>
+                        <button class="btn-secondary">Reset</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="page-sholat" class="page-content hidden">
+                <header>
+                    <div>
+                        <h1>Waktu Sholat</h1>
+                        <p>Jadwal ibadah harian untuk wilayah Anda</p>
+                    </div>
+                    <div class="user-actions">
+                        <span class="datetime">19.54.06 | Senin, 13 Jul 2026</span>
+                        <button class="btn-icon">🌙</button>
+                        <button class="btn-icon">🔔</button>
+                        <button class="btn-icon install-badge">M</button>
+                    </div>
+                </header>
+
+                <div class="sholat-card">
+                    <h3>Cirebon & Sekitarnya</h3>
+                    <ul class="sholat-list">
+                        <li><span>Subuh</span> <span>04:35</span></li>
+                        <li><span>Dzuhur</span> <span>11:55</span></li>
+                        <li><span>Ashar</span> <span>15:15</span></li>
+                        <li><span>Maghrib</span> <span>17:50</span></li>
+                        <li><span>Isya</span> <span>19:02</span></li>
+                    </ul>
+                </div>
+            </div>
+
         </main>
     </div>
-    <script src="script.js"></script>
+
+    <script src="script.js" defer></script>
 </body>
 </html>
