@@ -10,8 +10,8 @@
 }
 
 body {
-    background-color: #f8fafc; /* Abu-abu sangat terang khas dashboard modern */
-    color: #1e293b; /* Warna teks utama */
+    background-color: #f8fafc;
+    color: #1e293b;
     overflow-x: hidden;
 }
 
@@ -20,9 +20,27 @@ body {
     min-height: 100vh;
 }
 
-/* Utilitas Global */
 .hidden {
     display: none !important;
+}
+
+/* OVERLAY LAYAR GELAP UNTUK MOBILE */
+#sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 998; /* Di bawah sidebar, di atas konten */
+    backdrop-filter: blur(2px);
+    transition: opacity 0.3s ease;
+}
+
+#sidebar-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+    display: block !important; /* Block untuk transisi opacity */
 }
 
 /* ==========================================================================
@@ -30,16 +48,16 @@ body {
    ========================================================================== */
 #sidebar {
     width: 280px;
-    background-color: #0f172a; /* Biru gelap / Slate 900 */
+    background-color: #0f172a;
     color: #f8fafc;
-    padding: 30px 0; /* Padding vertikal utama */
+    padding: 30px 0;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
     border-right: 1px solid #1e293b;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Brand / Logo di Sidebar */
 .brand {
     display: flex;
     align-items: center;
@@ -66,7 +84,6 @@ body {
     margin-top: 2px;
 }
 
-/* Menu Navigasi */
 .menu {
     list-style: none;
     display: flex;
@@ -93,20 +110,18 @@ body {
     color: #ffffff;
 }
 
-/* Menu Aktif */
 .menu li.active {
-    background-color: rgba(22, 163, 74, 0.15); /* Transparansi Hijau */
-    color: #4ade80; /* Hijau Terang */
+    background-color: rgba(22, 163, 74, 0.15);
+    color: #4ade80;
     font-weight: 600;
 }
 
-/* Footer Sidebar (Kotak Hijau Basmalah) */
 .sidebar-footer {
-    background-color: #16a34a; /* Latar belakang hijau padat */
+    background-color: #16a34a;
     color: #ffffff;
     padding: 15px;
     border-radius: 12px;
-    margin: auto 20px 10px 20px; /* Menempel di bawah */
+    margin: auto 20px 10px 20px;
     text-align: center;
     box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.2);
 }
@@ -124,7 +139,6 @@ body {
     font-weight: 600;
     margin-top: 6px;
 }
-
 
 /* ==========================================================================
    BAGIAN 3: LAYOUT UTAMA & GLOBAL HEADER
@@ -146,6 +160,16 @@ main {
     border-bottom: 1px solid #e2e8f0;
 }
 
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.mobile-only {
+    display: none !important;
+}
+
 #global-header h1 {
     font-size: 1.75rem;
     font-weight: 800;
@@ -158,7 +182,6 @@ main {
     margin-top: 2px;
 }
 
-/* Aksi Tombol User di Header */
 .user-actions {
     display: flex;
     align-items: center;
@@ -192,7 +215,6 @@ main {
     transform: translateY(-2px);
 }
 
-/* Badge Modifikasi Install 'M' */
 .install-badge {
     background-color: #1e293b;
     color: #4ade80;
@@ -200,11 +222,9 @@ main {
     border: none;
 }
 
-
 /* ==========================================================================
    BAGIAN 4: ELEMEN CONTENT - DASHBOARD
    ========================================================================== */
-/* Banner Motivasi */
 .banner {
     background: linear-gradient(135deg, #16a34a, #15803d);
     color: #ffffff;
@@ -242,7 +262,6 @@ main {
     border-radius: 10px;
 }
 
-/* Grid Statistik Dashboard */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -270,7 +289,6 @@ main {
     text-transform: uppercase;
 }
 
-/* Quick Access */
 .quick-access {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -303,7 +321,6 @@ main {
     font-weight: 700;
     cursor: pointer;
 }
-
 
 /* ==========================================================================
    BAGIAN 5: FORM & STRUKTUR HALAMAN TUGAS
@@ -351,7 +368,6 @@ main {
     cursor: pointer;
 }
 
-/* Desain Komponen Form */
 .task-form {
     background-color: #ffffff;
     padding: 30px;
@@ -402,7 +418,6 @@ main {
     border-top: 1px solid #e2e8f0;
 }
 
-/* Empty State */
 .empty-state {
     text-align: center;
     background-color: #ffffff;
@@ -417,7 +432,6 @@ main {
 
 .empty-state p { color: #64748b; font-size: 0.9rem; }
 
-/* List wrapper untuk list tugas aktif */
 .task-list-wrapper {
     display: flex;
     flex-direction: column;
@@ -447,7 +461,6 @@ main {
     color: #64748b;
 }
 
-/* Komponen Badge */
 .badge {
     display: inline-block;
     margin-top: 8px;
@@ -456,6 +469,7 @@ main {
     font-weight: 700;
     border-radius: 6px;
 }
+
 .badge-priority.tinggi { background-color: #fef2f2; color: #ef4444; }
 .badge-priority.sedang { background-color: #fffbeb; color: #f59e0b; }
 .badge-priority.rendah { background-color: #f0fdf4; color: #16a34a; }
@@ -463,7 +477,6 @@ main {
 
 .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
 .btn-danger { border-color: #fca5a5 !important; color: #ef4444 !important; }
-
 
 /* ==========================================================================
    BAGIAN 6: JADWAL SHOLAT & TIMER
@@ -525,39 +538,69 @@ main {
 .sholat-list li span:first-child { color: #475569; }
 .sholat-list li span:last-child { color: #16a34a; font-weight: 700; }
 
-
 /* ==========================================================================
-   BAGIAN 7: MEDIA QUERIES RESPONSIVE MOBILE
+   BAGIAN 7: MEDIA QUERIES RESPONSIVE MOBILE (SISTEM BUKA TUTUP MENU)
    ========================================================================== */
 @media (max-width: 1024px) {
     .stats-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
-    #app { flex-direction: column; }
-    #sidebar { width: 100%; height: auto; padding: 20px 0; }
-    .brand { margin-bottom: 15px; }
-    .menu { flex-direction: row; overflow-x: auto; }
-    .menu li { white-space: nowrap; }
-    .sidebar-footer { display: none; }
+    /* Munculkan Tombol Hamburger */
+    .mobile-only { display: flex !important; }
+    
+    /* Sembunyikan Jam di HP agar header tidak berantakan */
+    .hidden-mobile { display: none !important; }
+
+    /* Atur Ulang Main Layout */
     main { padding: 20px; }
-    #global-header { flex-direction: column; align-items: flex-start; gap: 15px; }
-    .user-actions { width: 100%; justify-content: space-between; }
+    
+    /* Atur Header agar rapi di HP */
+    #global-header { 
+        flex-direction: column; 
+        align-items: flex-start; 
+        gap: 15px; 
+    }
+    .user-actions { 
+        width: 100%; 
+        justify-content: flex-end; 
+    }
+
+    /* SISTEM OFF-CANVAS SIDEBAR (BUKA-TUTUP) */
+    #sidebar {
+        position: fixed;
+        top: 0;
+        left: -300px; /* Disembunyikan ke kiri */
+        height: 100vh;
+        z-index: 999;
+        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Class open ditrigger JS untuk memunculkan sidebar */
+    #sidebar.open {
+        left: 0; 
+    }
+
+    /* Grid & Toolbar Turun jadi 1 Kolom */
     .stats-grid { grid-template-columns: 1fr; }
     .quick-access { grid-template-columns: 1fr; }
     .form-grid { grid-template-columns: 1fr; }
+    .task-toolbar { flex-direction: column; gap: 15px; align-items: stretch; }
+    .search-filter { flex-direction: column; }
+    .search-filter input { width: 100%; }
+    
+    .banner h2 { font-size: 1.3rem; }
+    #global-header h1 { font-size: 1.5rem; }
 }
-
 
 /* ==========================================================================
    BAGIAN 8: OVERRIDE TOTAL DARK THEME (MODE GELAP)
    ========================================================================== */
 body.dark-theme {
-    background-color: #0f172a; /* Slate 900 */
+    background-color: #0f172a; 
     color: #f1f5f9;
 }
 
-/* Memaksa semua teks hitam/gelap bawaan menjadi putih bersih */
 body.dark-theme #global-header h1,
 body.dark-theme .task-card-info h4,
 body.dark-theme .task-form h3,
@@ -568,7 +611,6 @@ body.dark-theme .form-group label {
     color: #ffffff !important;
 }
 
-/* Mengubah teks deskripsi sekunder menjadi abu-abu terang */
 body.dark-theme #global-header p,
 body.dark-theme .task-card-info p,
 body.dark-theme .stat-card span,
@@ -577,7 +619,6 @@ body.dark-theme .sholat-list li span:first-child {
     color: #94a3b8 !important;
 }
 
-/* Mengubah latar belakang seluruh container box menjadi gelap (Slate 800) */
 body.dark-theme #global-header,
 body.dark-theme .stat-card, 
 body.dark-theme .nav-card,
@@ -591,7 +632,6 @@ body.dark-theme .task-item-card {
     color: #ffffff !important;
 }
 
-/* Penyesuaian Elemen Input Form & Dropdown di Tema Gelap */
 body.dark-theme input, 
 body.dark-theme select, 
 body.dark-theme textarea {
@@ -600,27 +640,26 @@ body.dark-theme textarea {
     border-color: #475569 !important;
 }
 
-/* Kotak List Sholat */
 body.dark-theme .sholat-list li {
     background-color: #334155 !important;
     color: #ffffff !important;
 }
 
-/* Penyesuaian Badge Status Kelola Tugas */
 body.dark-theme .badge-status {
     background-color: #334155;
     color: #cbd5e1;
 }
 
-/* Penyesuaian Tombol Lingkaran di Header */
 body.dark-theme .btn-icon {
     background-color: #1e293b;
     border-color: #334155;
     color: #ffffff;
 }
+
 body.dark-theme .btn-icon:hover {
     background-color: #334155;
 }
+
 body.dark-theme .datetime {
     background-color: #334155;
     color: #cbd5e1;
