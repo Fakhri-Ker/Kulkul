@@ -1,11 +1,12 @@
 /* ==========================================================================
-   BAGIAN 1: GLOBAL RESET, FONT, & BASE STYLES
+   BAGIAN 1: GLOBAL RESET & BASE STYLES
    ========================================================================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Inter', sans-serif;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 body {
@@ -31,7 +32,7 @@ body {
     width: 280px;
     background-color: #0f172a; /* Biru gelap / Slate 900 */
     color: #f8fafc;
-    padding: 30px 20px;
+    padding: 30px 0; /* Padding vertikal utama */
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
@@ -44,7 +45,7 @@ body {
     align-items: center;
     gap: 12px;
     margin-bottom: 35px;
-    padding-bottom: 20px;
+    padding: 0 20px 20px 20px;
     border-bottom: 1px solid #1e293b;
 }
 
@@ -71,6 +72,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    padding: 0 20px;
 }
 
 .menu li {
@@ -98,56 +100,65 @@ body {
     font-weight: 600;
 }
 
-/* Footer Sidebar */
+/* Footer Sidebar (Kotak Hijau Basmalah) */
 .sidebar-footer {
-    margin-top: auto;
+    background-color: #16a34a; /* Latar belakang hijau padat */
+    color: #ffffff;
+    padding: 15px;
+    border-radius: 12px;
+    margin: auto 20px 10px 20px; /* Menempel di bawah */
     text-align: center;
-    padding-top: 20px;
-    border-top: 1px solid #1e293b;
+    box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.2);
 }
 
 .sidebar-footer p {
-    font-size: 0.75rem;
-    color: #64748b;
+    font-size: 0.8rem;
+    color: #ffffff;
     margin-bottom: 4px;
+    font-weight: 500;
 }
 
-.sidebar-footer p:last-child {
-    font-family: serif;
-    font-size: 0.9rem;
-    color: #94a3b8;
+.sidebar-footer .arabic-text {
+    font-size: 0.95rem;
+    color: #ffffff;
+    font-weight: 600;
+    margin-top: 6px;
 }
 
 
 /* ==========================================================================
-   BAGIAN 3: LAYOUT UTAMA & HEADER
+   BAGIAN 3: LAYOUT UTAMA & GLOBAL HEADER
    ========================================================================== */
 main {
     flex: 1;
     padding: 40px;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
-header {
+#global-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 35px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e2e8f0;
 }
 
-header h1 {
+#global-header h1 {
     font-size: 1.75rem;
     font-weight: 800;
     color: #0f172a;
 }
 
-header p {
+#global-header p {
     font-size: 0.9rem;
     color: #64748b;
     margin-top: 2px;
 }
 
-/* Tombol & Aksi User */
+/* Aksi Tombol User di Header */
 .user-actions {
     display: flex;
     align-items: center;
@@ -161,7 +172,6 @@ header p {
     background-color: #e2e8f0;
     padding: 8px 16px;
     border-radius: 20px;
-    margin-right: 8px;
 }
 
 .btn-icon {
@@ -175,16 +185,14 @@ header p {
     align-items: center;
     justify-content: center;
     font-size: 1.1rem;
-    transition: all 0.2s ease;
 }
 
 .btn-icon:hover {
     background-color: #f1f5f9;
-    border-color: #cbd5e1;
     transform: translateY(-2px);
 }
 
-/* Badge 'M' Modifikasi Install */
+/* Badge Modifikasi Install 'M' */
 .install-badge {
     background-color: #1e293b;
     color: #4ade80;
@@ -192,42 +200,33 @@ header p {
     border: none;
 }
 
-.install-badge:hover {
-    background-color: #0f172a;
-    color: #22c55e;
-}
-
 
 /* ==========================================================================
-   BAGIAN 4: ELEMEN DASHBOARD GLOBAL
+   BAGIAN 4: ELEMEN CONTENT - DASHBOARD
    ========================================================================== */
-/* Banner Hijau Utama */
+/* Banner Motivasi */
 .banner {
-    background: linear-gradient(135deg, #16a34a, #15803d); /* Gradasi Hijau */
+    background: linear-gradient(135deg, #16a34a, #15803d);
     color: #ffffff;
     padding: 35px;
     border-radius: 16px;
     margin-bottom: 30px;
     box-shadow: 0 10px 15px -3px rgba(22, 163, 74, 0.2);
-    position: relative;
-    overflow: hidden;
 }
 
 .banner h2 {
     font-size: 1.6rem;
     font-weight: 700;
-    line-height: 1.4;
     margin-bottom: 10px;
+    color: #ffffff !important;
 }
 
 .banner p {
     font-size: 0.95rem;
-    color: #dcfce7;
-    max-width: 600px;
+    color: #dcfce7 !important;
     line-height: 1.6;
 }
 
-/* Progress bar di Banner */
 .progress-container {
     background-color: rgba(255, 255, 255, 0.2);
     height: 8px;
@@ -241,17 +240,9 @@ header p {
     background-color: #ffffff;
     height: 100%;
     border-radius: 10px;
-    transition: width 0.4s ease;
 }
 
-.banner small {
-    display: block;
-    margin-top: 8px;
-    font-size: 0.8rem;
-    color: #dcfce7;
-}
-
-/* Grid Statistik Dashboard (4 Kotak) */
+/* Grid Statistik Dashboard */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -268,12 +259,6 @@ header p {
     font-weight: 800;
     color: #0f172a;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    transition: all 0.2s ease;
-}
-
-.stat-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .stat-card span {
@@ -283,10 +268,9 @@ header p {
     font-weight: 600;
     margin-top: 6px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
-/* Quick Access (Tugas & Jadwal) */
+/* Quick Access */
 .quick-access {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -301,7 +285,6 @@ header p {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 .nav-card h3 {
@@ -319,24 +302,17 @@ header p {
     font-size: 0.85rem;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.nav-link:hover {
-    background-color: #dcfce7;
-    color: #15803d;
 }
 
 
 /* ==========================================================================
-   BAGIAN 5: HALAMAN MANAJEMEN TUGAS
+   BAGIAN 5: FORM & STRUKTUR HALAMAN TUGAS
    ========================================================================== */
 .task-toolbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 25px;
-    gap: 15px;
 }
 
 .search-filter {
@@ -349,23 +325,12 @@ header p {
     padding: 10px 16px;
     border: 1px solid #cbd5e1;
     border-radius: 10px;
-    font-size: 0.9rem;
     background-color: #ffffff;
-    color: #334155;
     outline: none;
-    transition: border 0.2s ease;
 }
 
-.search-filter input:focus,
-.search-filter select:focus {
-    border-color: #16a34a;
-}
+.search-filter input { width: 280px; }
 
-.search-filter input {
-    width: 280px;
-}
-
-/* Tombol-Tombol Aksi */
 .btn-primary {
     background-color: #16a34a;
     color: #ffffff;
@@ -373,15 +338,7 @@ header p {
     padding: 12px 24px;
     border-radius: 10px;
     font-weight: 600;
-    font-size: 0.9rem;
     cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.2);
-}
-
-.btn-primary:hover {
-    background-color: #15803d;
-    transform: translateY(-2px);
 }
 
 .btn-secondary {
@@ -391,31 +348,22 @@ header p {
     padding: 12px 24px;
     border-radius: 10px;
     font-weight: 600;
-    font-size: 0.9rem;
     cursor: pointer;
-    transition: all 0.2s ease;
 }
 
-.btn-secondary:hover {
-    background-color: #f8fafc;
-    border-color: #94a3b8;
-}
-
-/* Form Tambah Tugas */
+/* Desain Komponen Form */
 .task-form {
     background-color: #ffffff;
     padding: 30px;
     border-radius: 16px;
     border: 1px solid #e2e8f0;
     margin-bottom: 30px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
 }
 
 .task-form h3 {
     font-size: 1.25rem;
-    font-weight: 700;
-    color: #0f172a;
     margin-bottom: 25px;
+    color: #0f172a;
 }
 
 .form-grid {
@@ -424,9 +372,7 @@ header p {
     gap: 20px;
 }
 
-.form-group.full-width {
-    grid-column: 1 / -1;
-}
+.form-group.full-width { grid-column: 1 / -1; }
 
 .form-group label {
     display: block;
@@ -443,22 +389,8 @@ header p {
     padding: 12px;
     border: 1px solid #cbd5e1;
     border-radius: 8px;
-    font-size: 0.9rem;
-    color: #334155;
     background-color: #ffffff;
     outline: none;
-    transition: all 0.2s ease;
-}
-
-.form-group textarea {
-    resize: vertical;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    border-color: #16a34a;
-    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
 }
 
 .form-actions {
@@ -470,48 +402,72 @@ header p {
     border-top: 1px solid #e2e8f0;
 }
 
-/* Empty State / Status Kosong */
+/* Empty State */
 .empty-state {
     text-align: center;
     background-color: #ffffff;
-    padding: 60px 20px;
+    padding: 50px 20px;
     border-radius: 16px;
     border: 1px solid #e2e8f0;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
 }
 
-.empty-icon {
-    font-size: 3rem;
-    color: #94a3b8;
-    margin-bottom: 15px;
+.empty-icon { font-size: 2.5rem; margin-bottom: 12px; }
+
+.empty-state h3 { color: #334155; margin-bottom: 4px; }
+
+.empty-state p { color: #64748b; font-size: 0.9rem; }
+
+/* List wrapper untuk list tugas aktif */
+.task-list-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
 }
 
-.empty-state h3 {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #334155;
-    margin-bottom: 6px;
+.task-item-card {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.empty-state p {
-    font-size: 0.9rem;
+.task-card-info h4 {
+    margin: 0 0 5px 0;
+    color: #0f172a;
+    font-size: 1.1rem;
+}
+
+.task-card-info p {
+    margin: 0;
+    font-size: 0.85rem;
     color: #64748b;
 }
 
-
-/* ==========================================================================
-   BAGIAN 6: JADWAL KULIAH & CATATAN
-   ========================================================================== */
-.schedule-toolbar,
-.notes-toolbar {
-    margin-bottom: 25px;
+/* Komponen Badge */
+.badge {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 6px;
 }
+.badge-priority.tinggi { background-color: #fef2f2; color: #ef4444; }
+.badge-priority.sedang { background-color: #fffbeb; color: #f59e0b; }
+.badge-priority.rendah { background-color: #f0fdf4; color: #16a34a; }
+.badge-status { background-color: #f1f5f9; color: #475569; margin-left: 5px; }
+
+.btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+.btn-danger { border-color: #fca5a5 !important; color: #ef4444 !important; }
 
 
 /* ==========================================================================
-   BAGIAN 7: TIMER BELAJAR & WAKTU SHOLAT
+   BAGIAN 6: JADWAL SHOLAT & TIMER
    ========================================================================== */
-/* Timer Card */
 .timer-card {
     background-color: #ffffff;
     padding: 50px 30px;
@@ -520,7 +476,6 @@ header p {
     text-align: center;
     max-width: 450px;
     margin: 40px auto;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
 }
 
 .timer-display {
@@ -528,7 +483,6 @@ header p {
     font-weight: 800;
     color: #0f172a;
     margin-bottom: 30px;
-    letter-spacing: -2px;
 }
 
 .timer-controls {
@@ -537,7 +491,6 @@ header p {
     gap: 15px;
 }
 
-/* Waktu Sholat */
 .sholat-card {
     background-color: #ffffff;
     padding: 30px;
@@ -545,17 +498,12 @@ header p {
     border: 1px solid #e2e8f0;
     max-width: 500px;
     margin: 20px auto;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
 }
 
 .sholat-card h3 {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #0f172a;
     margin-bottom: 20px;
     text-align: center;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #f1f5f9;
+    color: #0f172a;
 }
 
 .sholat-list {
@@ -572,98 +520,65 @@ header p {
     border-radius: 10px;
     background-color: #f8fafc;
     font-weight: 600;
-    transition: background-color 0.2s ease;
 }
 
-.sholat-list li:hover {
-    background-color: #f0fdf4;
+.sholat-list li span:first-child { color: #475569; }
+.sholat-list li span:last-child { color: #16a34a; font-weight: 700; }
+
+
+/* ==========================================================================
+   BAGIAN 7: MEDIA QUERIES RESPONSIVE MOBILE
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-.sholat-list li span:first-child {
-    color: #475569;
-}
-
-.sholat-list li span:last-child {
-    color: #16a34a;
-    font-weight: 700;
+@media (max-width: 768px) {
+    #app { flex-direction: column; }
+    #sidebar { width: 100%; height: auto; padding: 20px 0; }
+    .brand { margin-bottom: 15px; }
+    .menu { flex-direction: row; overflow-x: auto; }
+    .menu li { white-space: nowrap; }
+    .sidebar-footer { display: none; }
+    main { padding: 20px; }
+    #global-header { flex-direction: column; align-items: flex-start; gap: 15px; }
+    .user-actions { width: 100%; justify-content: space-between; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .quick-access { grid-template-columns: 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
 }
 
 
 /* ==========================================================================
-   BAGIAN 8: MEDIA QUERIES (DESAIN RESPONSIF MOBILE/TABLET)
+   BAGIAN 8: OVERRIDE TOTAL DARK THEME (MODE GELAP)
    ========================================================================== */
-@media (max-width: 1024px) {
-    .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 768px) {
-    #app {
-        flex-direction: column;
-    }
-
-    #sidebar {
-        width: 100%;
-        height: auto;
-        padding: 20px;
-    }
-
-    .brand {
-        margin-bottom: 15px;
-        padding-bottom: 10px;
-    }
-
-    .menu {
-        flex-direction: row;
-        overflow-x: auto;
-        padding-bottom: 10px;
-    }
-
-    .menu li {
-        white-space: nowrap;
-    }
-
-    .sidebar-footer {
-        display: none; /* Sembunyikan footer di mobile agar tidak memakan ruang */
-    }
-
-    main {
-        padding: 20px;
-    }
-
-    header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-
-    .user-actions {
-        width: 100%;
-        justify-content: space-between;
-    }
-
-    .stats-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .quick-access {
-        grid-template-columns: 1fr;
-    }
-
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* --- DARK THEME ADJUSTMENTS --- */
 body.dark-theme {
     background-color: #0f172a; /* Slate 900 */
     color: #f1f5f9;
 }
-body.dark-theme main header h1 {
-    color: #ffffff;
+
+/* Memaksa semua teks hitam/gelap bawaan menjadi putih bersih */
+body.dark-theme #global-header h1,
+body.dark-theme .task-card-info h4,
+body.dark-theme .task-form h3,
+body.dark-theme .nav-card h3,
+body.dark-theme .timer-display,
+body.dark-theme .sholat-card h3,
+body.dark-theme .form-group label {
+    color: #ffffff !important;
 }
+
+/* Mengubah teks deskripsi sekunder menjadi abu-abu terang */
+body.dark-theme #global-header p,
+body.dark-theme .task-card-info p,
+body.dark-theme .stat-card span,
+body.dark-theme .empty-state p,
+body.dark-theme .sholat-list li span:first-child {
+    color: #94a3b8 !important;
+}
+
+/* Mengubah latar belakang seluruh container box menjadi gelap (Slate 800) */
+body.dark-theme #global-header,
 body.dark-theme .stat-card, 
 body.dark-theme .nav-card,
 body.dark-theme .task-form,
@@ -671,15 +586,42 @@ body.dark-theme .empty-state,
 body.dark-theme .timer-card,
 body.dark-theme .sholat-card,
 body.dark-theme .task-item-card {
-    background-color: #1e293b !important; /* Slate 800 */
+    background-color: #1e293b !important;
     border-color: #334155 !important;
     color: #ffffff !important;
 }
-body.dark-theme .stat-card span,
-body.dark-theme .empty-state p {
-    color: #94a3b8;
+
+/* Penyesuaian Elemen Input Form & Dropdown di Tema Gelap */
+body.dark-theme input, 
+body.dark-theme select, 
+body.dark-theme textarea {
+    background-color: #334155 !important;
+    color: #ffffff !important;
+    border-color: #475569 !important;
 }
+
+/* Kotak List Sholat */
 body.dark-theme .sholat-list li {
+    background-color: #334155 !important;
+    color: #ffffff !important;
+}
+
+/* Penyesuaian Badge Status Kelola Tugas */
+body.dark-theme .badge-status {
     background-color: #334155;
+    color: #cbd5e1;
+}
+
+/* Penyesuaian Tombol Lingkaran di Header */
+body.dark-theme .btn-icon {
+    background-color: #1e293b;
+    border-color: #334155;
     color: #ffffff;
+}
+body.dark-theme .btn-icon:hover {
+    background-color: #334155;
+}
+body.dark-theme .datetime {
+    background-color: #334155;
+    color: #cbd5e1;
 }
