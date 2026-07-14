@@ -2,60 +2,65 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAI Schedule</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
+    <title>PAI Student - UIN SIBER Syekh Nurjati</title>
 </head>
 <body>
     <div id="app">
-        <nav id="sidebar">
-            <div class="logo">PAI Student</div>
-            <ul>
-                <li class="active">Dashboard</li>
-                <li>Tugas</li>
-                <li>Jadwal Kuliah</li>
-                <li>Catatan</li>
-            </ul>
-        </nav>
-        
+        <!-- Sidebar -->
+        <aside id="sidebar">
+            <div class="brand">
+                <div class="logo">🎓</div>
+                <div>
+                    <h2>PAI Student</h2>
+                    <p>UIN SIBER Syekh Nurjati</p>
+                </div>
+            </div>
+            <nav>
+                <ul class="menu">
+                    <li class="active">Dashboard</li>
+                    <li>Tugas</li>
+                    <li>Jadwal Kuliah</li>
+                    <li>Catatan</li>
+                    <li>Timer Belajar</li>
+                    <li>Waktu Sholat</li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <p>Bismillahirramanirrahim</p>
+                <p>بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
         <main>
             <header>
-                <div class="header-top">
+                <div>
                     <h1>Dashboard</h1>
-                    <div class="user-actions">
-                        <button id="btn-install" title="Install Aplikasi">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-                        </button>
-                        <button>🔔</button>
-                    </div>
+                    <p>Selamat datang kembali!</p>
+                </div>
+                <div class="user-actions">
+                    <span>19.54.06 | Senin, 13 Jul 2026</span>
+                    <button>🌙</button>
+                    <button>🔔</button>
+                    <button id="btn-install">M</button>
                 </div>
             </header>
 
             <div class="banner">
-                <h2>Semangat Belajar Hari Ini! ☀️</h2>
+                <h2>Assalamu'alaikum <br> Semangat Belajar Hari Ini! ☀️</h2>
                 <p>"Tuntutlah ilmu, sesungguhnya menuntut ilmu adalah pendekatan diri kepada Allah."</p>
+                <div class="progress-bar">0% tugas selesai</div>
             </div>
 
             <div class="stats-grid">
-                <div class="stat-card">0 <span>Tugas Aktif</span></div>
-                <div class="stat-card">0 <span>Selesai</span></div>
-                <div class="stat-card">0 <span>Terlambat</span></div>
-                <div class="stat-card">0 <span>Jadwal Hari Ini</span></div>
-            </div>
-
-            <div class="quick-access">
-                <div class="nav-card">
-                    <h3>Tugas</h3>
-                    <button class="nav-link" data-target="tasks">Lihat Semua</button>
-                </div>
-                <div class="nav-card">
-                    <h3>Jadwal Kuliah</h3>
-                    <button class="nav-link" data-target="schedule">Lihat Semua</button>
-                </div>
+                <div class="card">0 <span>Tugas Aktif</span></div>
+                <div class="card">0 <span>Selesai</span></div>
+                <div class="card">0 <span>Terlambat</span></div>
+                <div class="card">0 <span>Jadwal Hari Ini</span></div>
             </div>
         </main>
     </div>
-    <script src="script.js" defer></script>
+    <script src="script.js"></script>
 </body>
 </html>
