@@ -10,27 +10,46 @@ let timerMinutes = 25;
 let timerSeconds = 0;
 let isTimerRunning = false;
 
+// Metadata untuk memperbarui teks judul dan subjudul di Global Header secara otomatis
+const pageMeta = {
+    'page-dashboard': { title: 'Dashboard', subtitle: 'Selamat datang kembali!' },
+    'page-tugas': { title: 'Manajemen Tugas', subtitle: 'Kelola semua tugas kuliah' },
+    'page-jadwal': { title: 'Jadwal Kuliah', subtitle: 'Daftar mata kuliah mingguan' },
+    'page-catatan': { title: 'Catatan Belajar', subtitle: 'Simpan materi penting kuliah' },
+    'page-timer': { title: 'Timer Belajar (Pomodoro)', subtitle: 'Fokus belajar dengan metode interval' },
+    'page-sholat': { title: 'Waktu Sholat', subtitle: 'Jadwal ibadah harian untuk wilayah Anda' }
+};
+
 
 /* ==========================================================================
-   BAGIAN 2: NAVIGASI SINGLE PAGE APPLICATION (SPA)
+   BAGIAN 2: NAVIGASI SINGLE PAGE APPLICATION (SPA) GLOBAL
    ========================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
     const menuItems = document.querySelectorAll('.menu li');
     const navLinks = document.querySelectorAll('.nav-link');
     const pages = document.querySelectorAll('.page-content');
+    
+    const mainTitle = document.getElementById('main-title');
+    const mainSubtitle = document.getElementById('main-subtitle');
 
-    // Fungsi untuk berpindah halaman
+    // Fungsi utama perpindahan halaman
     function navigateTo(targetId) {
-        // Sembunyikan semua halaman
+        // Sembunyikan semua halaman konten
         pages.forEach(page => page.classList.add('hidden'));
         
-        // Tampilkan halaman target
+        // Tampilkan halaman target yang dipilih
         const targetPage = document.getElementById(targetId);
         if (targetPage) {
             targetPage.classList.remove('hidden');
         }
 
-        // Perbarui status aktif di Sidebar Menu
+        // Perbarui teks di Global Header berdasarkan halaman aktif
+        if (pageMeta[targetId] && mainTitle && mainSubtitle) {
+            mainTitle.textContent = pageMeta[targetId].title;
+            mainSubtitle.textContent = pageMeta[targetId].subtitle;
+        }
+
+        // Sinkronisasi status class 'active' pada menu Sidebar
         menuItems.forEach(item => {
             item.classList.remove('active');
             if (item.getAttribute('data-target') === targetId) {
@@ -39,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Event Listener untuk menu Sidebar
+    // Event Listener untuk klik menu di Sidebar
     menuItems.forEach(item => {
         item.addEventListener('click', () => {
             const target = item.getAttribute('data-target');
@@ -47,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Event Listener untuk tombol pintasan (Quick Access) di Dashboard
+    // Event Listener untuk tombol pintasan (Quick Access) di Halaman Dashboard
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
             const target = link.getAttribute('data-target');
@@ -55,12 +74,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Inisialisasi awal saat aplikasi dibuka
+    // Inisialisasi awal fitur-fitur aplikasi saat dimuat
     updateDateTime();
-    setInterval(updateDateTime, 1000); // Jalankan jam real-time setiap detik
-    renderTasks(); // Tampilkan daftar tugas
-    updateDashboardStats(); // Hitung ulang statistik di Dashboard
-    initTheme(); // Setel tema (Gelap/Terang)
+    setInterval(updateDateTime, 1000); // Sinkronisasi jam real-time setiap 1 detik
+    renderTasks();
+    updateDashboardStats();
+    initTheme();
+    initCustomMatkulField(); // Jalankan listener deteksi pilihan "Lainnya"
 });
 
 
@@ -70,32 +90,54 @@ document.addEventListener('DOMContentLoaded', () => {
 function updateDateTime() {
     const now = new Date();
     
-    // Format Waktu: HH.MM.SS
+    // Format Jam: HH.MM.SS
     const hours = String(now.getHours()).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const seconds = String(now.getSeconds()).padStart(2, '0');
     const timeString = `${hours}.${minutes}.${seconds}`;
 
-    // Format Tanggal Indonesia
+    // Format Tanggal Terjemahan Indonesia
     const options = { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' };
     const dateString = now.toLocaleDateString('id-ID', options);
 
-    // Update semua elemen pengingat waktu di header tiap halaman
-    document.querySelectorAll('.datetime').forEach(el => {
-        el.textContent = `${timeString} | ${dateString}`;
-    });
+    const datetimeEl = document.querySelector('.datetime');
+    if (datetimeEl) {
+        datetimeEl.textContent = `${timeString} | ${dateString}`;
+    }
 }
 
 
 /* ==========================================================================
-   BAGIAN 4: LOGIKA MANAJEMEN TUGAS
+   BAGIAN 4: DETEKSI FORM DROPDOWN MATA KULIAH "LAINNYA"
+   ========================================================================== */
+function initCustomMatkulField() {
+    const selectMatkul = document.getElementById('task-matkul');
+    const customMatkulGroup = document.getElementById('custom-matkul-group');
+    
+    if (selectMatkul && customMatkulGroup) {
+        selectMatkul.addEventListener('change', () => {
+            // Jika memilih opsi 'Lainnya', buka kolom input teks baru
+            if (selectMatkul.value === 'Lainnya') {
+                customMatkulGroup.classList.remove('hidden');
+            } else {
+                // Sembunyikan dan kosongkan jika memilih mata kuliah bawaan
+                customMatkulGroup.classList.add('hidden');
+                document.getElementById('task-matkul-custom').value = '';
+            }
+        });
+    }
+}
+
+
+/* ==========================================================================
+   BAGIAN 5: LOGIKA MANAJEMEN TUGAS (CRUD)
    ========================================================================== */
 const btnShowForm = document.getElementById('btn-show-form');
 const btnCancelForm = document.getElementById('btn-cancel-form');
 const formTugas = document.getElementById('form-tambah-tugas');
 const emptyState = document.getElementById('empty-task-state');
 
-// Toggle Tampilkan / Sembunyikan Form
+// Buka Formulir Tambah Tugas
 if (btnShowForm && formTugas && emptyState) {
     btnShowForm.addEventListener('click', () => {
         formTugas.classList.remove('hidden');
@@ -103,6 +145,7 @@ if (btnShowForm && formTugas && emptyState) {
     });
 }
 
+// Batal / Tutup Formulir Tambah Tugas
 if (btnCancelForm && formTugas) {
     btnCancelForm.addEventListener('click', () => {
         formTugas.classList.add('hidden');
@@ -112,30 +155,39 @@ if (btnCancelForm && formTugas) {
     });
 }
 
-// Logika Menyimpan Tugas Baru
-const saveButton = formTugas?.querySelector('.btn-primary');
-if (saveButton) {
-    saveButton.addEventListener('click', (e) => {
+// Menyimpan Data Tugas Baru ke Database Lokal
+const btnSaveTask = document.getElementById('btn-save-task');
+if (btnSaveTask) {
+    btnSaveTask.addEventListener('click', (e) => {
         e.preventDefault();
 
-        // Mengambil nilai input dari formulir
-        const judul = formTugas.querySelector('input[type="text"]').value.trim();
-        const matkul = formTugas.querySelectorAll('select')[0].value;
-        const deadline = formTugas.querySelector('input[type="date"]').value;
-        const prioritas = formTugas.querySelectorAll('select')[1].value;
-        const kategori = formTugas.querySelectorAll('select')[2].value;
-        const status = formTugas.querySelectorAll('select')[3].value;
-        const deskripsi = formTugas.querySelector('textarea').value.trim();
+        const judul = document.getElementById('task-title').value.trim();
+        let matkul = document.getElementById('task-matkul').value;
+        const matkulCustom = document.getElementById('task-matkul-custom').value.trim();
+        const deadline = document.getElementById('task-deadline').value;
+        const prioritas = document.getElementById('task-priority').value;
+        const kategori = document.getElementById('task-category').value;
+        const status = document.getElementById('task-status').value;
+        const deskripsi = document.getElementById('task-desc').value.trim();
 
-        // Validasi input wajib isi
+        // Validasi input form primer
         if (!judul || matkul === "Pilih Mata Kuliah") {
             alert("Harap isi Judul Tugas dan pilih Mata Kuliah!");
             return;
         }
 
-        // Membuat objek tugas baru
+        // Logika penentuan nilai jika memilih opsi kustom 'Lainnya'
+        if (matkul === 'Lainnya') {
+            if (!matkulCustom) {
+                alert("Harap ketik manual nama mata kuliah baru Anda!");
+                return;
+            }
+            matkul = matkulCustom; // Gunakan teks input manual dari user
+        }
+
+        // Membuat data objek terstruktur tugas baru
         const newTask = {
-            id: Date.now(), // ID Unik menggunakan timestamp
+            id: Date.now(),
             judul,
             matkul,
             deadline,
@@ -145,102 +197,69 @@ if (saveButton) {
             deskripsi
         };
 
-        // Simpan ke array state dan localStorage
+        // Masukkan ke array utama dan perbarui localStorage browser
         tasks.push(newTask);
         localStorage.setItem('pai_tasks', JSON.stringify(tasks));
 
-        // Reset form & sembunyikan kembali
-        formTugas.querySelector('input[type="text"]').value = '';
-        formTugas.querySelectorAll('select')[0].selectedIndex = 0;
-        formTugas.querySelector('input[type="date"]').value = '';
-        formTugas.querySelectorAll('select')[1].selectedIndex = 1; // Default: Sedang
-        formTugas.querySelectorAll('select')[2].selectedIndex = 0; // Default: Tugas
-        formTugas.querySelectorAll('select')[3].selectedIndex = 0; // Default: Belum Dikerjakan
-        formTugas.querySelector('textarea').value = '';
+        // Reset ulang isi form ke pengaturan awal (Clear Form)
+        document.getElementById('task-title').value = '';
+        document.getElementById('task-matkul').selectedIndex = 0;
+        document.getElementById('task-matkul-custom').value = '';
+        document.getElementById('custom-matkul-group').classList.add('hidden');
+        document.getElementById('task-deadline').value = '';
+        document.getElementById('task-priority').selectedIndex = 1; // Default Sedang
+        document.getElementById('task-category').selectedIndex = 0;
+        document.getElementById('task-status').selectedIndex = 0;
+        document.getElementById('task-desc').value = '';
 
         formTugas.classList.add('hidden');
-
-        // Perbarui UI
+        
+        // Segarkan antarmuka visual (Render Ulang)
         renderTasks();
         updateDashboardStats();
     });
 }
 
-// Menampilkan daftar tugas ke halaman HTML
+// Menampilkan Data List Tugas Secara Dinamis
 function renderTasks() {
-    // Hapus element list tugas lama jika ada sebelum me-render ulang
     const existingList = document.getElementById('task-list-container');
     if (existingList) existingList.remove();
 
     if (tasks.length === 0) {
-        emptyState.classList.remove('hidden');
+        if (emptyState) emptyState.classList.remove('hidden');
         return;
     }
 
-    emptyState.classList.add('hidden');
+    if (emptyState) emptyState.classList.add('hidden');
 
-    // Membuat container list baru
     const listContainer = document.createElement('div');
     listContainer.id = 'task-list-container';
-    listContainer.style.display = 'flex';
-    listContainer.style.flexDirection = 'column';
-    listContainer.style.gap = '15px';
-    listContainer.style.marginTop = '20px';
+    listContainer.className = 'task-list-wrapper';
 
     tasks.forEach(task => {
         const taskCard = document.createElement('div');
         taskCard.className = 'task-item-card';
-        taskCard.style.cssText = `
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        `;
 
+        // Stuktur struktur HTML Card Tugas yang terintegrasi dengan class CSS Dark Mode
         taskCard.innerHTML = `
-            <div>
-                <h4 style="margin: 0 0 5px 0; color: #0f172a; font-size: 1.1rem;">${task.judul}</h4>
-                <p style="margin: 0; font-size: 0.85rem; color: #64748b;">
-                    📚 <strong>${task.matkul}</strong> | 📅 Deadline: ${task.deadline || '-'} | 🏷️ ${task.kategori}
-                </p>
-                <span style="
-                    display: inline-block; 
-                    margin-top: 8px; 
-                    padding: 4px 10px; 
-                    font-size: 0.75rem; 
-                    font-weight: 700; 
-                    border-radius: 6px;
-                    background-color: ${task.prioritas === 'Tinggi' ? '#fef2f2' : task.prioritas === 'Sedang' ? '#fffbeb' : '#f0fdf4'};
-                    color: ${task.prioritas === 'Tinggi' ? '#ef4444' : task.prioritas === 'Sedang' ? '#f59e0b' : '#16a34a'};
-                ">${task.prioritas}</span>
-                <span style="
-                    display: inline-block; 
-                    margin-top: 8px; 
-                    margin-left: 5px;
-                    padding: 4px 10px; 
-                    font-size: 0.75rem; 
-                    font-weight: 700; 
-                    border-radius: 6px;
-                    background-color: ${task.status === 'Selesai' ? '#f0fdf4' : task.status === 'Sedang Dikerjakan' ? '#eff6ff' : '#f8fafc'};
-                    color: ${task.status === 'Selesai' ? '#16a34a' : task.status === 'Sedang Dikerjakan' ? '#3b82f6' : '#64748b'};
-                ">${task.status}</span>
+            <div class="task-card-info">
+                <h4>${task.judul}</h4>
+                <p>📚 <strong>${task.matkul}</strong> | 📅 Deadline: ${task.deadline || '-'} | 🏷️ ${task.kategori}</p>
+                <span class="badge badge-priority ${task.prioritas.toLowerCase()}">${task.prioritas}</span>
+                <span class="badge badge-status">${task.status}</span>
             </div>
-            <div style="display: flex; gap: 8px;">
-                <button onclick="toggleTaskStatus(${task.id})" class="btn-secondary" style="padding: 8px 12px; font-size: 0.8rem;">✔️ Selesai</button>
-                <button onclick="deleteTask(${task.id})" class="btn-secondary" style="padding: 8px 12px; font-size: 0.8rem; border-color: #fca5a5; color: #ef4444;">🗑️</button>
+            <div class="task-card-actions">
+                <button onclick="toggleTaskStatus(${task.id})" class="btn-secondary btn-sm">✔️ Selesai</button>
+                <button onclick="deleteTask(${task.id})" class="btn-secondary btn-sm btn-danger">🗑️</button>
             </div>
         `;
-
         listContainer.appendChild(taskCard);
     });
 
     document.getElementById('page-tugas').appendChild(listContainer);
 }
 
-// Fungsi mengubah status tugas cepat (Klik ✔️ Selesai)
+// Shortcut Mengubah Status Tugas Cepat
 window.toggleTaskStatus = function(id) {
     tasks = tasks.map(task => {
         if (task.id === id) {
@@ -253,7 +272,7 @@ window.toggleTaskStatus = function(id) {
     updateDashboardStats();
 };
 
-// Fungsi menghapus tugas
+// Menghapus data tugas dari list
 window.deleteTask = function(id) {
     if (confirm("Apakah Anda yakin ingin menghapus tugas ini?")) {
         tasks = tasks.filter(task => task.id !== id);
@@ -265,27 +284,26 @@ window.deleteTask = function(id) {
 
 
 /* ==========================================================================
-   BAGIAN 5: SINKRONISASI STATISTIK KE DASHBOARD
+   BAGIAN 6: SINKRONISASI STATISTIK KE DASHBOARD
    ========================================================================== */
 function updateDashboardStats() {
     const totalTugas = tasks.length;
     const selesai = tasks.filter(t => t.status === 'Selesai').length;
     const aktif = totalTugas - selesai;
     
-    // Simulasi Terlambat (jika tenggat waktu melampaui hari ini dan belum selesai)
+    // Menghitung status terlambat (Jika tanggal melampaui hari ini dan belum selesai)
     const hariIni = new Date().toISOString().split('T')[0];
     const terlambat = tasks.filter(t => t.deadline && t.deadline < hariIni && t.status !== 'Selesai').length;
 
-    // Update Kotak Statistik di Dashboard
     const statCards = document.querySelectorAll('.stat-card');
     if (statCards.length >= 4) {
-        statCards[0].childNodes[0].textContent = aktif + " ";
-        statCards[1].childNodes[0].textContent = selesai + " ";
-        statCards[2].childNodes[0].textContent = terlambat + " ";
-        statCards[3].childNodes[0].textContent = "0 "; // Sementara untuk Jadwal
+        statCards[0].innerHTML = `${aktif} <span>Tugas Aktif</span>`;
+        statCards[1].innerHTML = `${selesai} <span>Selesai</span>`;
+        statCards[2].innerHTML = `${terlambat} <span>Terlambat</span>`;
+        statCards[3].innerHTML = `0 <span>Jadwal Hari Ini</span>`; // Integrasi jadwal kuliah mendatang
     }
 
-    // Hitung progress bar hijau di Banner Dashboard
+    // Mengalkulasi persentase Progress Bar pada Banner Utama
     const progressPercent = totalTugas > 0 ? Math.round((selesai / totalTugas) * 100) : 0;
     const progressBar = document.querySelector('.progress-bar');
     const progressText = document.querySelector('.banner small');
@@ -296,30 +314,30 @@ function updateDashboardStats() {
 
 
 /* ==========================================================================
-   BAGIAN 6: LOGIKA TIMER BELAJAR (POMODORO)
+   BAGIAN 7: LOGIKA TIMER BELAJAR (POMODORO)
    ========================================================================== */
 const timerDisplay = document.querySelector('.timer-display');
-const btnStartTimer = document.querySelector('.timer-controls .btn-primary');
-const btnResetTimer = document.querySelector('.timer-controls .btn-secondary');
+const btnStartTimer = document.querySelector('.timer-card .btn-primary');
+const btnResetTimer = document.querySelector('.timer-card .btn-secondary');
 
 if (btnStartTimer && btnResetTimer && timerDisplay) {
     btnStartTimer.addEventListener('click', () => {
         if (isTimerRunning) {
-            // Pause Timer
+            // Jeda Jalannya Timer (Pause)
             clearInterval(timerInterval);
             btnStartTimer.textContent = 'Mulai';
-            btnStartTimer.style.backgroundColor = '#16a34a';
+            btnStartTimer.style.backgroundColor = '#16a34a'; // Kembalikan ke warna hijau semula
             isTimerRunning = false;
         } else {
-            // Start Timer
+            // Memulai Hitung Mundur Waktu (Start)
             isTimerRunning = true;
             btnStartTimer.textContent = 'Jeda';
-            btnStartTimer.style.backgroundColor = '#f59e0b'; // Ganti warna jadi orange saat berjalan
+            btnStartTimer.style.backgroundColor = '#f59e0b'; // Ubah warna jadi jingga saat beroperasi
             
             timerInterval = setInterval(() => {
                 if (timerSeconds === 0) {
                     if (timerMinutes === 0) {
-                        // Timer Selesai!
+                        // Sesi Selesai Berakhir
                         clearInterval(timerInterval);
                         alert("Waktu belajar selesai! Istirahatlah sejenak.");
                         resetTimer();
@@ -358,16 +376,16 @@ function updateTimerDisplay() {
 
 
 /* ==========================================================================
-   BAGIAN 7: DARK & LIGHT THEME TOGGLE
+   BAGIAN 8: DARK & LIGHT THEME TOGGLE GLOBAL (PERSISTEN)
    ========================================================================== */
 function initTheme() {
-    const themeBtn = document.querySelector('header .btn-icon:nth-child(2)'); // Tombol 🌙
-    
-    // Periksa preferensi tema yang tersimpan sebelumnya
+    const themeBtn = document.getElementById('theme-toggle');
     const savedTheme = localStorage.getItem('pai_theme') || 'light';
+    
+    // Periksa apakah preferensi tersimpan adalah dark-theme
     if (savedTheme === 'dark') {
         document.body.classList.add('dark-theme');
-        if (themeBtn) themeBtn.textContent = '☀️';
+        if (themeBtn) themeBtn.textContent = '☀️'; // Tukar ikon jadi matahari jika mode malam aktif
     }
 
     if (themeBtn) {
@@ -375,6 +393,8 @@ function initTheme() {
             document.body.classList.toggle('dark-theme');
             const isDark = document.body.classList.contains('dark-theme');
             themeBtn.textContent = isDark ? '☀️' : '🌙';
+            
+            // Simpan status pilihan terakhir agar saat refresh tidak kembali ke awal
             localStorage.setItem('pai_theme', isDark ? 'dark' : 'light');
         });
     }
