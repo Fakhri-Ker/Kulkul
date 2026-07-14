@@ -655,3 +655,31 @@ header p {
         grid-template-columns: 1fr;
     }
 }
+
+/* --- DARK THEME ADJUSTMENTS --- */
+body.dark-theme {
+    background-color: #0f172a; /* Slate 900 */
+    color: #f1f5f9;
+}
+body.dark-theme main header h1 {
+    color: #ffffff;
+}
+body.dark-theme .stat-card, 
+body.dark-theme .nav-card,
+body.dark-theme .task-form,
+body.dark-theme .empty-state,
+body.dark-theme .timer-card,
+body.dark-theme .sholat-card,
+body.dark-theme .task-item-card {
+    background-color: #1e293b !important; /* Slate 800 */
+    border-color: #334155 !important;
+    color: #ffffff !important;
+}
+body.dark-theme .stat-card span,
+body.dark-theme .empty-state p {
+    color: #94a3b8;
+}
+body.dark-theme .sholat-list li {
+    background-color: #334155;
+    color: #ffffff;
+}
