@@ -33,26 +33,26 @@
             </nav>
             <div class="sidebar-footer">
                 <p>Bismillahirramanirrahim</p>
-                <p>بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
+                <p class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
             </div>
         </aside>
 
         <main>
+            
+            <header id="global-header">
+                <div>
+                    <h1 id="main-title">Dashboard</h1>
+                    <p id="main-subtitle">Selamat datang kembali!</p>
+                </div>
+                <div class="user-actions">
+                    <span class="datetime">19.54.06 | Senin, 13 Jul 2026</span>
+                    <button id="theme-toggle" class="btn-icon" title="Ubah Mode">🌙</button>
+                    <button class="btn-icon" title="Notifikasi">🔔</button>
+                    <button id="btn-install" class="btn-icon install-badge" title="Install Aplikasi">M</button>
+                </div>
+            </header>
 
             <div id="page-dashboard" class="page-content">
-                <header>
-                    <div>
-                        <h1>Dashboard</h1>
-                        <p>Selamat datang kembali!</p>
-                    </div>
-                    <div class="user-actions">
-                        <span class="datetime">19.54.06 | Senin, 13 Jul 2026</span>
-                        <button class="btn-icon" title="Ubah Mode">🌙</button>
-                        <button class="btn-icon" title="Notifikasi">🔔</button>
-                        <button id="btn-install" class="btn-icon install-badge" title="Install Aplikasi">M</button>
-                    </div>
-                </header>
-
                 <div class="banner">
                     <h2>Assalamu'alaikum <br> Semangat Belajar Hari Ini! ☀️</h2>
                     <p>"Tuntutlah ilmu, sesungguhnya menuntut ilmu adalah pendekatan diri kepada Allah."</p>
@@ -81,21 +81,7 @@
                 </div>
             </div>
 
-
             <div id="page-tugas" class="page-content hidden">
-                <header>
-                    <div>
-                        <h1>Manajemen Tugas</h1>
-                        <p>Kelola semua tugas kuliah</p>
-                    </div>
-                    <div class="user-actions">
-                        <span class="datetime">19.54.06 | Senin, 13 Jul 2026</span>
-                        <button class="btn-icon">🌙</button>
-                        <button class="btn-icon">🔔</button>
-                        <button class="btn-icon install-badge">M</button>
-                    </div>
-                </header>
-
                 <div class="task-toolbar">
                     <div class="search-filter">
                         <input type="text" placeholder="🔍 Cari tugas...">
@@ -120,11 +106,11 @@
                     <div class="form-grid">
                         <div class="form-group full-width">
                             <label>Judul Tugas *</label>
-                            <input type="text" placeholder="Contoh: Makalah Tafsir Al-Baqarah">
+                            <input type="text" id="task-title" placeholder="Contoh: Makalah Tafsir Al-Baqarah">
                         </div>
                         <div class="form-group">
                             <label>Mata Kuliah *</label>
-                            <select>
+                            <select id="task-matkul">
                                 <option>Pilih Mata Kuliah</option>
                                 <option>Tafsir Al-Quran</option>
                                 <option>Hadits</option>
@@ -141,13 +127,19 @@
                                 <option>Lainnya</option>
                             </select>
                         </div>
+                        
+                        <div class="form-group hidden" id="custom-matkul-group">
+                            <label>Ketik Mata Kuliah Baru *</label>
+                            <input type="text" id="task-matkul-custom" placeholder="Masukkan nama mata kuliah manual">
+                        </div>
+
                         <div class="form-group">
                             <label>Deadline</label>
-                            <input type="date">
+                            <input type="date" id="task-deadline">
                         </div>
                         <div class="form-group">
                             <label>Prioritas</label>
-                            <select>
+                            <select id="task-priority">
                                 <option>Rendah</option>
                                 <option selected>Sedang</option>
                                 <option>Tinggi</option>
@@ -155,7 +147,7 @@
                         </div>
                         <div class="form-group">
                             <label>Kategori</label>
-                            <select>
+                            <select id="task-category">
                                 <option selected>Tugas</option>
                                 <option>Ujian</option>
                                 <option>Presentasi</option>
@@ -165,7 +157,7 @@
                         </div>
                         <div class="form-group full-width">
                             <label>Status</label>
-                            <select>
+                            <select id="task-status">
                                 <option selected>Belum Dikerjakan</option>
                                 <option>Sedang Dikerjakan</option>
                                 <option>Selesai</option>
@@ -173,12 +165,12 @@
                         </div>
                         <div class="form-group full-width">
                             <label>Deskripsi</label>
-                            <textarea placeholder="Keterangan tambahan..." rows="4"></textarea>
+                            <textarea id="task-desc" placeholder="Keterangan tambahan..." rows="4"></textarea>
                         </div>
                     </div>
                     <div class="form-actions">
                         <button id="btn-cancel-form" class="btn-secondary">Batal</button>
-                        <button class="btn-primary">Simpan</button>
+                        <button type="button" id="btn-save-task" class="btn-primary">Simpan</button>
                     </div>
                 </div>
 
@@ -189,25 +181,10 @@
                 </div>
             </div>
 
-
             <div id="page-jadwal" class="page-content hidden">
-                <header>
-                    <div>
-                        <h1>Jadwal Kuliah</h1>
-                        <p>Daftar mata kuliah mingguan</p>
-                    </div>
-                    <div class="user-actions">
-                        <span class="datetime">19.54.06 | Senin, 13 Jul 2026</span>
-                        <button class="btn-icon">🌙</button>
-                        <button class="btn-icon">🔔</button>
-                        <button class="btn-icon install-badge">M</button>
-                    </div>
-                </header>
-
                 <div class="schedule-toolbar">
                     <button class="btn-primary">+ Tambah Jadwal</button>
                 </div>
-
                 <div class="empty-state">
                     <div class="empty-icon">📅</div>
                     <h3>Belum ada jadwal kuliah</h3>
@@ -215,25 +192,10 @@
                 </div>
             </div>
 
-
             <div id="page-catatan" class="page-content hidden">
-                <header>
-                    <div>
-                        <h1>Catatan Belajar</h1>
-                        <p>Simpan materi penting kuliah</p>
-                    </div>
-                    <div class="user-actions">
-                        <span class="datetime">19.54.06 | Senin, 13 Jul 2026</span>
-                        <button class="btn-icon">🌙</button>
-                        <button class="btn-icon">🔔</button>
-                        <button class="btn-icon install-badge">M</button>
-                    </div>
-                </header>
-
                 <div class="notes-toolbar">
                     <button class="btn-primary">+ Tambah Catatan</button>
                 </div>
-
                 <div class="empty-state">
                     <div class="empty-icon">✍️</div>
                     <h3>Belum ada catatan</h3>
@@ -241,21 +203,7 @@
                 </div>
             </div>
 
-
             <div id="page-timer" class="page-content hidden">
-                <header>
-                    <div>
-                        <h1>Timer Belajar (Pomodoro)</h1>
-                        <p>Fokus belajar dengan metode interval</p>
-                    </div>
-                    <div class="user-actions">
-                        <span class="datetime">19.54.06 | Senin, 13 Jul 2026</span>
-                        <button class="btn-icon">🌙</button>
-                        <button class="btn-icon">🔔</button>
-                        <button class="btn-icon install-badge">M</button>
-                    </div>
-                </header>
-
                 <div class="timer-card">
                     <div class="timer-display">25:00</div>
                     <div class="timer-controls">
@@ -265,21 +213,7 @@
                 </div>
             </div>
 
-
             <div id="page-sholat" class="page-content hidden">
-                <header>
-                    <div>
-                        <h1>Waktu Sholat</h1>
-                        <p>Jadwal ibadah harian untuk wilayah Anda</p>
-                    </div>
-                    <div class="user-actions">
-                        <span class="datetime">19.54.06 | Senin, 13 Jul 2026</span>
-                        <button class="btn-icon">🌙</button>
-                        <button class="btn-icon">🔔</button>
-                        <button class="btn-icon install-badge">M</button>
-                    </div>
-                </header>
-
                 <div class="sholat-card">
                     <h3>Cirebon & Sekitarnya</h3>
                     <ul class="sholat-list">
@@ -291,7 +225,6 @@
                     </ul>
                 </div>
             </div>
-
         </main>
     </div>
 
